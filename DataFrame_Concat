@@ -1,0 +1,16 @@
+import pandas as pd
+df2019=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='2019')
+df2020=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='2020')
+df2021=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='2021')
+df2022=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='2022')
+df2023=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='2023')
+df2023.rename(columns={'매개물':'사고매개물'},inplace=True)
+
+df_all=pd.concat([df2019,df2020,df2021,df2022,df2022,df2023],axis=0)
+df_all.to_csv('df_all',index=False)
+
+df_NoCorona=pd.concat([df2019,df2022,df2023],axis=0)
+df_NoCorona.to_csv('df_NoCorona',index=False)
+
+df_Corona=pd.concat([df2020,df2021],axis=0)
+df_Corona.to_csv('df_Corona',index=False)

@@ -1,0 +1,33 @@
+import pandas as pd
+df_all=pd.read_csv("/content/df_all",encoding_errors='ignore')
+
+#Preprocessing
+df_all.fillna(method='ffill',inplace=True)
+df_all.drop('구분',axis=1,inplace=True)
+df_all['사고발생시간']=df_all['사고발생시각'].str[:2]
+df_all.drop('사고발생시각',axis=1,inplace=True)
+df_all['사고발생월']=df_all['사고발생일'].str[5:7]
+df_all.drop('사고발생일',axis=1,inplace=True)
+df_all.drop('교육청',axis=1,inplace=True)
+df_all.dropna(axis=0,inplace=True)
+
+#Encoding
+target=df_all.pop('사고부위')
+cols=df_all.select_dtypes(include='object').columns
+from sklearn.preprocessing import LabelEncoder
+for col in cols:
+    le=LabelEncoder()
+    df_all[col]=le.fit_transform(df_all[col])
+    target=le.fit_transform(target)
+
+#Train_test_split
+from sklearn.model_selection import train_test_split
+x_tr, x_test, y_tr, y_test= train_test_split(df_all, target, random_state=42, test_size=0.2)
+
+#Model_Train
+from sklearn.ensemble import RandomForestClassifier
+rfc=RandomForestClassifier(random_state=42, n_estimators=1000, max_depth=5)
+rfc.fit(x_tr, y_tr)
+pred=rfc.predict(x_test)
+from sklearn.metrics import accuracy_score
+accuracy_score(y_test,pred)

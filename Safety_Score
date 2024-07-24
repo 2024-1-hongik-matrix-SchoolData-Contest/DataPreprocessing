@@ -16,4 +16,4 @@ for i in num:
 
 for k in range(len(num)-1):
     for institutue in institutes:
-        print('20{}_{}_개선점수= '.format(num[k+1], institute)+(globals()['df20{}_{}_score'.format(num[k], institute)])-(globals()['df20{}_{}_score'.format(num[k+1], institute)])+'\n')
+        print('20{}_{}_개선점수= '.format(num[k+1], institute)+str((globals()['df20{}_{}_score'.format(num[k], institute)])-(globals()['df20{}_{}_score'.format(num[k+1], institute)]))+'\n')

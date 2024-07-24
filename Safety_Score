@@ -1,4 +1,4 @@
-num=[19, 20, 21, 22]
+num=[19, 20, 21, 22, 23]
 institutes=df2019['교육청'].unique()
 for i in num:
     globals()['df20{}'.format(i)]=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='20'+str(i))

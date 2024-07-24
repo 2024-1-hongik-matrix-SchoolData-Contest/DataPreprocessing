@@ -1,0 +1,19 @@
+num=[19, 20, 21, 22]
+institutes=df2019['교육청'].unique()
+for i in num:
+    globals()['df20{}'.format(i)]=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='20'+str(i))
+    for institute in institutes:
+        globals()['df20{}_{}_score'.format(i,institute)]=0
+        cond=globals()['df20{}'.format(i)]['교육청']==institute
+        injuries=['머리(두부)','치아(구강)', '흉복부', '팔', '다리', '손', '발', '기타']
+        scores=[1.87, 0.13, 1.25, 0.15, 0.15, 0.15, 0.15, 0.33]
+        for rows in range(len(globals()['df20{}'.format(i)][cond])):
+            for j in range(len(injuries)):
+                if globals()['df20{}'.format(i)][cond].iloc[rows,13]==injuries[j]:
+                    globals()['df20{}_{}_score'.format(i,institute)]+=scores[j]
+                else:
+                    continue
+
+for k in range(len(num)-1):
+    for institutue in institutes:
+        print('20{}_{}_개선점수= '.format(num[k+1], institute)+(globals()['df20{}_{}_score'.format(num[k], institute)])-(globals()['df20{}_{}_score'.format(num[k+1], institute)])+'\n')

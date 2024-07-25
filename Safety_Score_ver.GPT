@@ -18,7 +18,7 @@ for i in num:
         scores = [1.87, 0.13, 1.25, 0.15, 0.15, 0.15, 0.15, 0.33]
 
         for index, row in dfs['df20{}'.format(i)][cond].iterrows():
-            injury_type = row.iloc[13]  # 13번째 열에 해당하는 사고부위
+            injury_type = row.iloc[13]
 
             # 사고부위에 따른 점수 계산
             for j in range(len(injuries)):

@@ -1,3 +1,6 @@
+import pandas as pd
+df2019=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx",header=0, sheet_name='2019')
+
 num=[19, 20, 21, 22, 23]
 institutes=df2019['교육청'].unique()
 for i in num:

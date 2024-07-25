@@ -1,13 +1,13 @@
 import pandas as pd
 
-# 데이터 프레임을 저장할 딕셔너리 생성
-dfs = {}
-
 num = [19, 20, 21, 22, 23]
+dfs = {}
+df2019=pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx", header=0, sheet_name='2019')
+institutes = df2019['교육청'].unique()
+
+# 데이터 로드
 for i in num:
     dfs['df20{}'.format(i)] = pd.read_excel("/content/★2019~2023 학교안전사고 데이터_수정.xlsx", header=0, sheet_name='20'+str(i))
-
-    institutes = dfs['df20{}'.format(i)]['교육청'].unique()
 
     for institute in institutes:
         score_column_name = 'df20{}_{}_score'.format(i, institute)
@@ -20,22 +20,20 @@ for i in num:
         for index, row in dfs['df20{}'.format(i)][cond].iterrows():
             injury_type = row.iloc[13]  # 13번째 열에 해당하는 사고부위
 
+            # 사고부위에 따른 점수 계산
             for j in range(len(injuries)):
                 if injury_type == injuries[j]:
                     dfs[score_column_name] += scores[j]
-                    break  # 사고부위가 일치할 경우 점수 더하고 반복문 종료
 
-# 각 교육청 별로 전년도와 점수를 빼는 반복문
-for i in range(len(num)-1):
-    current_year = num[i+1]
-    previous_year = num[i]
-
+# 각 연도별 교육청 별 점수 차이 계산
+for k in range(len(num) - 1):
+    current_year = num[k]
+    next_year = num[k + 1]
+    
     for institute in institutes:
         current_score_column = 'df20{}_{}_score'.format(current_year, institute)
-        previous_score_column = 'df20{}_{}_score'.format(previous_year, institute)
-
-        # 점수 계산
-        score_difference = dfs[previous_score_column] - dfs[current_score_column]
-
-        # 결과 출력 혹은 저장
-        print(f"{institute}의 20{current_year}년도 개선점수: {score_difference}")
+        next_score_column = 'df20{}_{}_score'.format(next_year, institute)
+        
+        score_difference = dfs[current_score_column] - dfs[next_score_column]
+        
+        print('20{}_{}_개선점수= '.format(next_year, institute) + str(score_difference) + '\n')
